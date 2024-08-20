@@ -8,4 +8,4 @@ select * from shirts;
 update shirts set last_worn = 0 where last_worn = 15;
 
 -- Update all white shirts and change size to 'XS' and color to 'off white'
-update shirts set shirt_size = 'XS', color = 'off white' where color = 'white'
+update shirts set shirt_size = 'XS', color = 'off white' where color = 'white' 
