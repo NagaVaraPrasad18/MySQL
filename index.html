@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Snippets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .snippet {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .snippet h2 {
+      font-size: 1.2em;
+      margin: 0 0 10px;
+      color: #2c3e50;
+    }
+    .snippet p {
+      margin: 0 0 10px;
+      color: #7f8c8d;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+    }
+    #loading {
+      text-align: center;
+      font-size: 1.2em;
+      color: #7f8c8d;
+    }
+    #error {
+      text-align: center;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>SQL Snippets</h1>
+  <div id="loading">Loading snippets...</div>
+  <div id="error" style="display: none;"></div>
+  <div id="snippets"></div>
+
+  <script>
+    async function fetchCommits() {
+      const repo = 'NagaVaraPrasad18/MySQL'; // Replace with your GitHub username and repo name
+      const folder = ''; // Folder containing SQL files
+      const apiUrl = `https://api.github.com/repos/${repo}/commits?path=${folder}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+        const commits = await response.json();
+
+        // Group commits by file to get the earliest commit date
+        const fileCommits = {};
+        for (const commit of commits) {
+          const commitDetails = await fetch(commit.url);
+          const details = await commitDetails.json();
+          const files = details.files || [];
+          for (const file of files) {
+            if (file.filename.endsWith('.sql')) {
+              const filename = file.filename;
+              if (!fileCommits[filename] || new Date(commit.commit.author.date) < new Date(fileCommits[filename].date)) {
+                fileCommits[filename] = {
+                  date: commit.commit.author.date,
+                  sha: commit.sha
+                };
+              }
+            }
+          }
+        }
+
+        // Sort files by commit date (oldest to newest)
+        const sortedFiles = Object.keys(fileCommits).sort((a, b) => {
+          return new Date(fileCommits[a].date) - new Date(fileCommits[b].date);
+        });
+
+        // Fetch and display each file's content
+        const snippetsContainer = document.getElementById('snippets');
+        document.getElementById('loading').style.display = 'none';
+
+        for (const filename of sortedFiles) {
+          const rawUrl = `https://raw.githubusercontent.com/${repo}/${fileCommits[filename].sha}/${filename}`;
+          const contentResponse = await fetch(rawUrl);
+          if (!contentResponse.ok) continue; // Skip if file fetch fails
+          const content = await contentResponse.text();
+
+          const snippetDiv = document.createElement('div');
+          snippetDiv.className = 'snippet';
+          snippetDiv.innerHTML = `
+            <h2>${filename}</h2>
+            <p>Committed on: ${new Date(fileCommits[filename].date).toLocaleString()}</p>
+            <pre><code>${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+          `;
+          snippetsContainer.appendChild(snippetDiv);
+        }
+
+        if (sortedFiles.length === 0) {
+          document.getElementById('error').textContent = 'No SQL files found in the specified folder.';
+          document.getElementById('error').style.display = 'block';
+        }
+      } catch (error) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').textContent = `Error: ${error.message}`;
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+
+    window.onload = fetchCommits;
+  </script>
+</body>
+</html>
