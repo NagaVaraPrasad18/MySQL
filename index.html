@@ -60,62 +60,32 @@
   <div id="snippets"></div>
 
   <script>
-    async function fetchCommits() {
-      const repo = 'NagaVaraPrasad18/MySQL'; // Replace with your GitHub username and repo name
-      const folder = ''; // Folder containing SQL files
-      const apiUrl = `https://api.github.com/repos/${repo}/commits?path=${folder}`;
-
+    async function loadSnippets() {
       try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
-        const commits = await response.json();
-
-        // Group commits by file to get the earliest commit date
-        const fileCommits = {};
-        for (const commit of commits) {
-          const commitDetails = await fetch(commit.url);
-          const details = await commitDetails.json();
-          const files = details.files || [];
-          for (const file of files) {
-            if (file.filename.endsWith('.sql')) {
-              const filename = file.filename;
-              if (!fileCommits[filename] || new Date(commit.commit.author.date) < new Date(fileCommits[filename].date)) {
-                fileCommits[filename] = {
-                  date: commit.commit.author.date,
-                  sha: commit.sha
-                };
-              }
-            }
-          }
-        }
+        const response = await fetch('snippets.json');
+        if (!response.ok) throw new Error('Failed to load snippets.json');
+        const fileCommits = await response.json();
+        document.getElementById('loading').style.display = 'none';
 
         // Sort files by commit date (oldest to newest)
         const sortedFiles = Object.keys(fileCommits).sort((a, b) => {
           return new Date(fileCommits[a].date) - new Date(fileCommits[b].date);
         });
 
-        // Fetch and display each file's content
         const snippetsContainer = document.getElementById('snippets');
-        document.getElementById('loading').style.display = 'none';
-
         for (const filename of sortedFiles) {
-          const rawUrl = `https://raw.githubusercontent.com/${repo}/${fileCommits[filename].sha}/${filename}`;
-          const contentResponse = await fetch(rawUrl);
-          if (!contentResponse.ok) continue; // Skip if file fetch fails
-          const content = await contentResponse.text();
-
           const snippetDiv = document.createElement('div');
           snippetDiv.className = 'snippet';
           snippetDiv.innerHTML = `
             <h2>${filename}</h2>
-            <p>Committed on: ${new Date(fileCommits[filename].date).toLocaleString()}</p>
-            <pre><code>${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+            <p>Committed on: ${new Date(fileCommits[filename].date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</p>
+            <pre><code>${fileCommits[filename].content.replace(/</g, '<').replace(/>/g, '>')}</code></pre>
           `;
           snippetsContainer.appendChild(snippetDiv);
         }
 
         if (sortedFiles.length === 0) {
-          document.getElementById('error').textContent = 'No SQL files found in the specified folder.';
+          document.getElementById('error').textContent = 'No SQL files found.';
           document.getElementById('error').style.display = 'block';
         }
       } catch (error) {
@@ -125,7 +95,7 @@
       }
     }
 
-    window.onload = fetchCommits;
+    window.onload = loadSnippets;
   </script>
 </body>
 </html>
