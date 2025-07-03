@@ -5,8 +5,12 @@ on:
 jobs:
   generate-json:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Explicitly grant write access for GITHUB_TOKEN
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for checkout
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -15,13 +19,11 @@ jobs:
         run: npm install node-fetch@2
       - name: Generate snippets.json
         env:
-          REPO: ${{ github.repository }}
+          REPO: ${{ github.repository }}  # e.g., NagaVaraPrasad18/MySQL
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node generate-snippets.js
-      - name: Commit snippets.json
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          git add snippets.json
-          git commit -m "Update snippets.json with SQL file data" || echo "No changes to commit"
-          git push
+      - name: Commit and push snippets.json
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
