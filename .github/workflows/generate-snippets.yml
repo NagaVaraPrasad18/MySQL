@@ -6,11 +6,11 @@ jobs:
   generate-json:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Explicitly grant write access for GITHUB_TOKEN
+      contents: write  # Grant write access for GITHUB_TOKEN
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for checkout
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -19,11 +19,16 @@ jobs:
         run: npm install node-fetch@2
       - name: Generate snippets.json
         env:
-          REPO: ${{ github.repository }}  # e.g., NagaVaraPrasad18/MySQL
+          REPO: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node generate-snippets.js
+        run: |
+          node generate-snippets.js
+          echo "Checking if snippets.json exists:"
+          ls -l snippets.json || echo "snippets.json not found"
+          cat snippets.json || echo "Unable to read snippets.json"
       - name: Commit and push snippets.json
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
+          force: true  # Force push to ensure changes are committed
