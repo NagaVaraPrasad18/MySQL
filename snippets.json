@@ -1,0 +1,182 @@
+{
+  "Activity 8 (CRUD - Read).sql": {
+    "date": "2024-08-20T18:04:23Z",
+    "sha": "41c7a565cc839cb2dc1b3579f5a7e9a587596f10",
+    "content": "-- Activity 8 (CRUD - Read)\n\n-- Select all the shirts but only print out article and color\nselect article, color from shirts;\n\n-- Select all Medium shirts (M) and print out everything but shirt_id\nselect article, color, shirt_size, last_worn from shirts where shirt_size = 'M';"
+  },
+  "Activity 9 (CRUD - Update).sql": {
+    "date": "2024-08-20T18:04:23Z",
+    "sha": "41c7a565cc839cb2dc1b3579f5a7e9a587596f10",
+    "content": "-- Activity 9 (CRUD - Update)\n\n-- Update all polo shirts and change their size to 'L'\nupdate shirts set shirt_size = 'L' where article = 'polo shirt';\nselect * from shirts;\n\n-- Update the shirt last worn 15 days ago and Change last_worn to 0\nupdate shirts set last_worn = 0 where last_worn = 15;\n\n-- Update all white shirts and change size to 'XS' and color to 'off white'\nupdate shirts set shirt_size = 'XS', color = 'off white' where color = 'white'"
+  },
+  "Activity 5 (CRUD - UPDATE).sql": {
+    "date": "2024-07-25T18:25:37Z",
+    "sha": "02342359ba672c3c189a5fc47aa9e9191ed2293a",
+    "content": "-- Activity 5 (CRUD - UPDATE) - Safe Update Mode Disabled\n\n-- Update Jackson's name to Jack\nupdate cats set name = 'Jack'\nwhere name = 'Jackson';\n\n-- Update Ringo's breed to British Shorthair\nupdate cats set breed = 'British Shorthair'\nwhere name = 'Ringo';\n\n-- Update Maine Coon's breed cats with age 12\nupdate cats set age = 12\nwhere breed = 'maine coon';\n\nselect * from cats;"
+  },
+  "Activity 6 (CRUD - DELETE).sql": {
+    "date": "2024-07-25T18:25:37Z",
+    "sha": "02342359ba672c3c189a5fc47aa9e9191ed2293a",
+    "content": "-- Activity 6 (CRUD - DELETE)\n\n-- Delete all 4 year old cats\ndelete from cats where age = 4;\n\n-- Delete cats whose age is the same as their cat_id\ndelete from cats where age = cat_id;\n\n-- Delete all cats\ndelete from cats;"
+  },
+  "Activity 7 (CRUD - Create, Read, Update and Delete).sql": {
+    "date": "2024-07-25T18:25:37Z",
+    "sha": "02342359ba672c3c189a5fc47aa9e9191ed2293a",
+    "content": "-- Activity 7 (CRUD - Create, Read, Update and Delete)\n\n-- Create a new Database - shirts_db\ncreate database shirts_db;\n\n-- Create a new table - shirts\nuse shirts_db;\ncreate table shirts\n(\n\tshirt_id int primary key auto_increment,\n    article varchar(20) not null,\n    color varchar(20) not null,\n    shirt_size varchar(20) not null,\n    last_worn int not null\n);\n\n-- Insert the given data\ninsert into shirts (article, color, shirt_size, last_worn)\nvalues ('t-shirt', 'white', 'S', 10),\n\t('t-shirt', 'green', 'S', 200),\n\t('polo shirt', 'black', 'M', 10),\n\t('tank top', 'blue', 'S', 50),\n\t('t-shirt', 'pink', 'S', 0),\n\t('polo shirt', 'red', 'M', 5),\n\t('tank top', 'white', 'S', 200),\n\t('tank top', 'blue', 'M', 15);\n    \n-- Add a new shirt - Purple polo shirt, size M last worn 50 days ago\ninsert into shirts (article, color, shirt_size, last_worn)\nvalues ('polo shirt', 'Purple', 'M', 50);\n\n-- Select all shirts but print out only article and color\nselect article, color from shirts;\n\n-- Select all medium shirts and print out everything but shirt_id\nselect article, color, shirt_size, last_worn from shirts\nwhere shirt_size = 'M';\n\n-- Update all polo shirts - Change their size to L\nupdate shirts set shirt_size = 'L'\nwhere article = 'polo shirt';\n\n-- Update the shirt last worn 15 days ago - Change last_worn to 0\nupdate shirts set last_worn = 0\nwhere last_worn = 15;\n\n-- Update all white shirts - Change size to 'XS' and color to 'off white'\nupdate shirts set shirt_size = 'XS', color = 'off white'\nwhere color = 'white';\n\n-- Delete all old shirts - Last worn 200 days ago\ndelete from shirts where last_worn = 200;\n\n-- Delete all tank tops\ndelete from shirts where article = 'tank top';\n\n-- Delete all shirts\ndelete from shirts;\n\n-- Drop the entire shirts table\ndrop table shirts;"
+  },
+  "CRUD (Delete).sql": {
+    "date": "2024-07-25T18:25:37Z",
+    "sha": "02342359ba672c3c189a5fc47aa9e9191ed2293a",
+    "content": "-- CRUD (Delete)\n\n-- Deletes all rows\ndelete from cats2;\n\n-- Delete row from ctas where name is c\ndelete from cats2 where name = 'c';\n"
+  },
+  "AS.sql": {
+    "date": "2024-07-24T18:24:01Z",
+    "sha": "da54398ed8545a8fb258eb8fffd6a92102c71fbe",
+    "content": "-- AS\n\nselect cat_id as id, name from cats;"
+  },
+  "Activity 4.sql": {
+    "date": "2024-07-24T18:24:01Z",
+    "sha": "da54398ed8545a8fb258eb8fffd6a92102c71fbe",
+    "content": "-- Activity 4\n\n-- Select all rows of cat_id column\nselect cat_id from cats;\n\n-- Select name and breeed columns of all rows\nselect name, breed from cats;\n\n-- Select name and age of cats with breed = Tabby\nselect name, age from cats where breed = 'Tabby';\n\n-- Select rows where cat_id is same as age\nselect cat_id, age from cats where cat_id = age;"
+  },
+  "CRUD (UPDATE) Safe Mode Disabled.sql": {
+    "date": "2024-07-24T18:24:01Z",
+    "sha": "da54398ed8545a8fb258eb8fffd6a92102c71fbe",
+    "content": "-- CRUD (UPDATE)\n-- Here Safe Update Mode is disabled (SET SQL_SAFE_UPDATES = 0;)\n-- To enable it - (SET SQL_SAFE_UPDATES = 1;)\n\nupdate cats2 set age = 99\nwhere age = 2;\n\nselect * from cats2;"
+  },
+  "CRUD - Create.sql": {
+    "date": "2024-07-24T18:24:01Z",
+    "sha": "da54398ed8545a8fb258eb8fffd6a92102c71fbe",
+    "content": "CREATE TABLE cats (\n    cat_id INT AUTO_INCREMENT,\n    name VARCHAR(100),\n    breed VARCHAR(100),\n    age INT,\n    PRIMARY KEY (cat_id)\n);\n\nINSERT INTO cats(name, breed, age) \nVALUES ('Ringo', 'Tabby', 4),\n       ('Cindy', 'Maine Coon', 10),\n       ('Dumbledore', 'Maine Coon', 11),\n       ('Egg', 'Persian', 4),\n       ('Misty', 'Tabby', 13),\n       ('George Michael', 'Ragdoll', 9),\n       ('Jackson', 'Sphynx', 7);"
+  },
+  "CRUD - Read.sql": {
+    "date": "2024-07-24T18:24:01Z",
+    "sha": "da54398ed8545a8fb258eb8fffd6a92102c71fbe",
+    "content": "-- CRUD (Read)\n\n-- To retrieve all the columns\nselect * from cats;\n\n-- To retrieve name column\nselect name from cats;\n\n-- To retrieve multiple columns- name and age\nselect name, age from cats;"
+  },
+  "Where.sql": {
+    "date": "2024-07-24T18:24:01Z",
+    "sha": "da54398ed8545a8fb258eb8fffd6a92102c71fbe",
+    "content": "-- WHERE\n\n-- To retrieve all the columns if age = 4\nselect * from cats where age = 4;\n\n-- To retrieve name column if age = 4\nselect name from cats where age = 4;\n\n-- To retrieve multiple columns- name and breed if breed = 'maine coon'\nselect name, breed from cats where breed = 'maine coon';"
+  },
+  "Activity 3.sql": {
+    "date": "2024-07-23T18:15:27Z",
+    "sha": "f9f5f68729855812db541bd080d6d4311458b443",
+    "content": "-- Activity 3\n-- Define an Employees Table with the following fields\n-- id - number (auto increment), primary key\n-- last_name - text, mandatory\n-- first_name - text, mandatory\n-- middle_name - text, not mandatory\n-- age - number, mandatory\n-- current_status - text, mandatory, default - 'employed'\n\ncreate table Employees\n(\n\tid int primary key auto_increment,\n    last_name varchar(20) not null,\n    first_name varchar(20) not null,\n    middle_name varchar(20),\n    age int not null,\n    current_status varchar(20) not null default 'employed'\n);\n\ninsert into Employees(last_name, first_name, age)\nvalues ('Last', 'First', 1);\n\ndesc Employees;\n\nselect * from Employees;"
+  },
+  "Auto_Increment.sql": {
+    "date": "2024-07-23T18:15:27Z",
+    "sha": "f9f5f68729855812db541bd080d6d4311458b443",
+    "content": "-- Auto_Increment\n\ncreate table cats5 (\n\tID int primary key auto_increment,\n    name varchar(20) not null,\n    age int not null\n);\n\ninsert into cats5 (name, age)\nvalues ('name1', 1),\n\t   ('name2', 2);\n       \nselect * from cats5;"
+  },
+  "Default.sql": {
+    "date": "2024-07-23T18:15:27Z",
+    "sha": "f9f5f68729855812db541bd080d6d4311458b443",
+    "content": "-- Default\n\ncreate table cats3 (name varchar(20) default 'Nothing', age int);\n\ninsert into cats3(age)\nvalues (20);\n\nselect * from cats3;"
+  },
+  "Primary Key (Another Approach).sql": {
+    "date": "2024-07-23T18:15:27Z",
+    "sha": "f9f5f68729855812db541bd080d6d4311458b443",
+    "content": "-- Primary Key (Another Approach)\n\ncreate table cats4 (\nSNo int,\nprimary key (SNo),\nname varchar(20) not null,\nage int not null\n);\n\ninsert into cats4 (SNo, name, age)\nvalues (1, 'name1', 1),\n\t   (2, 'name2', 2);\n\ndesc cats4;\n\nselect * from cats4;\n"
+  },
+  "Primary Key.sql": {
+    "date": "2024-07-23T18:15:27Z",
+    "sha": "f9f5f68729855812db541bd080d6d4311458b443",
+    "content": "-- Primary Key\n\ncreate table cats4 (\nSNo int primary key,\nname varchar(20) not null,\nage int not null\n);\n\ninsert into cats4 (SNo, name, age)\nvalues (1, 'name1', 1),\n\t   (2, 'name2', 2);\n\ndesc cats4;\n\nselect * from cats4;"
+  },
+  "Not Null.sql": {
+    "date": "2024-07-22T18:33:54Z",
+    "sha": "00c42c7b5a9a26173d051ae7a00be4ff5d8a6c50",
+    "content": "-- Creating a table with columns not accepting null values / adding a constraint not null to the variables or fields\n\ncreate table cats2\n(\tname varchar(20) not null,\n\tage int not null\n);\n"
+  },
+  "Show Databases.sql": {
+    "date": "2024-07-22T18:33:54Z",
+    "sha": "00c42c7b5a9a26173d051ae7a00be4ff5d8a6c50",
+    "content": "-- Show Databases\n\nshow databases;"
+  },
+  "Storing Null values.sql": {
+    "date": "2024-07-22T18:33:54Z",
+    "sha": "00c42c7b5a9a26173d051ae7a00be4ff5d8a6c50",
+    "content": "-- Storing one column with Null value\ninsert into cats(name)\nvalues (\"Todd\");\n\n-- Storing all columns with Null value\ninsert into cats()\nvalues();\n\nselect * from cats;"
+  },
+  "Activity 1.sql": {
+    "date": "2024-07-19T19:14:04Z",
+    "sha": "0f7a8c41ddf68a16b230326a20aed8ec9f7dc36a",
+    "content": "-- Activity to create a pastries table consisting of 2 columns - name and quantity.\n-- name should contain max of 50 characters\n-- Inspect whether the table and columns are created\n-- Delete the table\n\nuse testdb;\ncreate table pastries\n(\n\tname varchar(50),\n    quantity int\n);\nshow tables;\n-- show columns from pastries;\ndesc pastries;\ndrop table pastries;"
+  },
+  "Activity 2.sql": {
+    "date": "2024-07-19T19:14:04Z",
+    "sha": "0f7a8c41ddf68a16b230326a20aed8ec9f7dc36a",
+    "content": "-- Activity 2\n-- Create a table - people with 3 columns - first_name, last_name, age where first_name and last_name should contain a max of 20 characters\n-- Insert multiple rows with data\n\ncreate table people (first_name varchar(20), last_name varchar(20), age int);\n\nshow tables;\ndesc people;\n\ninsert into people\nvalues (\"First1\", \"Last1\", 1),\n\t   (\"First2\", \"Last2\", 2),\n       (\"First3\", \"Last3\", 3);\n\nselect * from people;\n"
+  },
+  "Inserting data into a table.sql": {
+    "date": "2024-07-19T19:14:04Z",
+    "sha": "0f7a8c41ddf68a16b230326a20aed8ec9f7dc36a",
+    "content": "-- Inserting data into a table\ncreate table cats(name varchar(20), age int);\n\ninsert into cats (name, age)\nvalues (\"Cat1\", 1),\n(\"Cat2\", 2); -- inserting multiple rows\n"
+  },
+  "Select.sql": {
+    "date": "2024-07-19T19:14:04Z",
+    "sha": "0f7a8c41ddf68a16b230326a20aed8ec9f7dc36a",
+    "content": "-- To Display the contents of a table\ncreate table cats(name varchar(20), age int);\n\ninsert into cats (name, age)\nvalues (\"Cat1\", 1),\n(\"Cat2\", 2);\n\nselect * from cats;"
+  },
+  "Comment in MySQL.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "-- We can use \"-- \" to comment in MySQL\n-- desc test;"
+  },
+  "Creating Table.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "create table test1\n( name varchar(20),\n  age int\n  );"
+  },
+  "Deleting a Table.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "-- Deleting / Dropping a Table\n\ndrop table test1;"
+  },
+  "Desc Table.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "desc test;"
+  },
+  "Describe table.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "describe test1;"
+  },
+  "Displaying Columns.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "show columns from test;\ndescribe test1;\ndesc test;"
+  },
+  "Show Tables.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "show tables;"
+  },
+  "Show columns from table.sql": {
+    "date": "2024-07-18T19:03:22Z",
+    "sha": "6ea24c83f7a1a491aae83f52d3e8bb53a77730ee",
+    "content": "show columns from test;"
+  },
+  "Deleting Database.sql": {
+    "date": "2024-07-17T16:51:59Z",
+    "sha": "46c1da71789e82716b7be2c202d9d1f6ef8e15c0",
+    "content": "drop database testdb;"
+  },
+  "Using Database.sql": {
+    "date": "2024-07-17T16:51:59Z",
+    "sha": "46c1da71789e82716b7be2c202d9d1f6ef8e15c0",
+    "content": "use testdb;"
+  },
+  "Using and Selecting Database.sql": {
+    "date": "2024-07-17T16:51:59Z",
+    "sha": "46c1da71789e82716b7be2c202d9d1f6ef8e15c0",
+    "content": "use testdb;\nselect database();"
+  },
+  "Creating Database.sql": {
+    "date": "2024-07-17T16:34:27Z",
+    "sha": "250b3f0669b0ad69f7dc2b0d70bc1335a3d62c8a",
+    "content": "CREATE DATABASE TestDB;"
+  }
+}
