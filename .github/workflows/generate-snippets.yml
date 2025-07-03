@@ -27,8 +27,9 @@ jobs:
           ls -l snippets.json || echo "snippets.json not found"
           cat snippets.json || echo "Unable to read snippets.json"
       - name: Commit and push snippets.json
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          force: true  # Force push to ensure changes are committed
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add snippets.json
+          git commit -m "Update snippets.json with SQL file data" || echo "No changes to commit"
+          git push
