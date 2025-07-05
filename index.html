@@ -78,7 +78,7 @@
           snippetDiv.className = 'snippet';
           snippetDiv.innerHTML = `
             <h2>${filename}</h2>
-            <p>Committed on: ${new Date(fileCommits[filename].date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</p>
+            <p>Committed on: ${new Date(fileCommits[filename].date).toLocaleString()}</p>
             <pre><code>${fileCommits[filename].content.replace(/</g, '<').replace(/>/g, '>')}</code></pre>
           `;
           snippetsContainer.appendChild(snippetDiv);
